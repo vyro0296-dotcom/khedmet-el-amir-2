@@ -1,0 +1,30 @@
+{
+  "settings": {
+    "notifications": true,
+    "dark": false,
+    "birthday": true,
+    "autoSave": true,
+    "brightness": 100
+  },
+  "users": [
+    {
+      "id": "0c34b9e2-c789-4cf9-9eb7-8d9f06773d83",
+      "phone": "201012345678",
+      "passwordHash": "730828353a061855104be0948b5f4f07:170c36c884064e18ae7ca5ae6467fd8eff29b468f4f55168322fc0b8bb050df56f6da5219b7b2375e660712fae1ea6c5f6945103b49ad5c54f871dbd8860cba5",
+      "role": "admin",
+      "createdAt": "2026-09-20T12:18:06.395Z"
+    }
+  ],
+  "classes": [
+    "أولى إعدادي",
+    "ثانية إعدادي",
+    "ثالثة إعدادي",
+    "أولى ثانوي",
+    "ثانية ثانوي",
+    "ثالثة ثانوي",
+    "خريجين"
+  ],
+  "members": [],
+  "attendance": [],
+  "visits": []
+}

@@ -1,0 +1,9 @@
+{
+  "name":"khedmet-elamir",
+  "version":"2.0.0",
+  "private":true,
+  "description":"خدمة الأمير - PostgreSQL backend",
+  "scripts":{"start":"node server.js","migrate":"node migrate.js"},
+  "dependencies":{"pg":"^8.16.3"},
+  "engines":{"node":">=18"}
+}

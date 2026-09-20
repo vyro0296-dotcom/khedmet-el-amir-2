@@ -1,0 +1,9 @@
+const {Pool}=require('pg');
+const pool=new Pool({connectionString:process.env.DATABASE_URL,ssl:process.env.PGSSL==='true'?{rejectUnauthorized:false}:undefined,max:Number(process.env.PG_POOL_MAX||20),idleTimeoutMillis:30000});
+async function init(){if(!process.env.DATABASE_URL)throw new Error('DATABASE_URL is required');await pool.query(`CREATE TABLE IF NOT EXISTS app_state (id integer PRIMARY KEY CHECK(id=1), data jsonb NOT NULL, updated_at timestamptz NOT NULL DEFAULT now());`);await pool.query(`CREATE TABLE IF NOT EXISTS users (id uuid PRIMARY KEY, phone varchar(20) UNIQUE NOT NULL, password_hash text NOT NULL, role varchar(20) NOT NULL, created_at timestamptz NOT NULL DEFAULT now());`);await pool.query(`INSERT INTO app_state(id,data) VALUES(1,$1) ON CONFLICT(id) DO NOTHING`,[{settings:{notifications:true,dark:false,birthday:true,autoSave:true,brightness:100},classes:['أولى إعدادي','ثانية إعدادي','ثالثة إعدادي','أولى ثانوي','ثانية ثانوي','ثالثة ثانوي','خريجين'],members:[],attendance:[],visits:[]}]);}
+async function getState(){return (await pool.query('SELECT data FROM app_state WHERE id=1')).rows[0].data}
+async function updateState(data){await pool.query('UPDATE app_state SET data=$1,updated_at=now() WHERE id=1',[data])}
+async function findUser(phone){return (await pool.query('SELECT id,phone,password_hash AS "passwordHash",role FROM users WHERE phone=$1',[phone])).rows[0]||null}
+async function countUsers(){return Number((await pool.query('SELECT COUNT(*) FROM users')).rows[0].count)}
+async function createUser(user){const r=await pool.query('INSERT INTO users(id,phone,password_hash,role) VALUES($1,$2,$3,$4) RETURNING id,phone,role',[user.id,user.phone,user.passwordHash,user.role]);return r.rows[0]}
+module.exports={pool,init,getState,updateState,findUser,countUsers,createUser};
